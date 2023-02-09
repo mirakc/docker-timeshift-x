@@ -1,0 +1,42 @@
+# mirakc/timeshift-gerbera
+
+>  mirakc-timesift-fs + Gerbera
+
+[![main](https://img.shields.io/docker/image-size/mirakc/timeshift-gerbera/main?label=main)](https://hub.docker.com/r/mirakc/timeshift-gerbera/tags?page=1&name=main)
+
+## How to use
+
+```yaml
+services:
+  mirakc:
+    ...
+    volumes:
+      - /path/to/config.yml:/etc/mirakc/config.yml:ro
+      - /path/to/timeshift:/var/lib/mirakc/timeshift
+    ...
+
+  timeshift:
+    container_name: timeshift
+    image: mirakc/timeshift-gerbera
+    restart: unless-stopped
+    cap_add:
+      - SYS_ADMIN
+    # In addition, you might have to run with no apparmor security profile
+    # in order to avoid "fusermount3: mount failed: Permission denied".
+    #security_opt:
+    #  - apparmor:unconfined
+    devices:
+      - /dev/fuse
+    network_mode: host
+    volumes:
+      # Use the same config.yml
+      - /path/to/config.yml:/etc/mirakc/config.yml:ro
+      # Timeshift files
+      - /path/to/timeshift:/var/lib/mirakc/timeshift:ro
+    environment:
+      # TZ must be specified.
+      TZ: Asia/Tokyo
+      RUST_LOG: info
+      # See run.sh for other environment variables.
+      GERBERA_VIDEO_MIMETYPE: 'video/mpeg:DLNA.ORG_PN=MPEG_PS_NTSC;DLNA.ORG_OP=01;DLNA.ORG_CI=0'
+```
