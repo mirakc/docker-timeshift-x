@@ -1,8 +1,8 @@
-name: daily
+name: weekly
 
 on:
   schedule:
-    - cron: '15 15 * * *' # UTC
+    - cron: '21 21 * * 5'  # every Friday
 
 jobs:
   docker:
@@ -32,9 +32,7 @@ jobs:
           push: true
           context: ./gerbera
           tags: |
-            mirakc/timeshift-gerbera:main
-          build-args: |
-            prefix=main-
+            mirakc/timeshift-gerbera
           platforms: |
             linux/amd64
             linux/arm/v7
@@ -45,9 +43,7 @@ jobs:
           push: true
           context: ./samba
           tags: |
-            mirakc/timeshift-samba:main
-          build-args: |
-            prefix=main-
+            mirakc/timeshift-samba
           platforms: |
             linux/386
             linux/amd64
