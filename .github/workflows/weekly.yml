@@ -21,6 +21,14 @@ jobs:
           config-inline: |
             [worker.oci]
               max-parallelism = 1
+      - name: Get the latest version of mirakc/timeshift-fs:alpine
+        id: latest-version
+        run: |
+          IMAGE='mirakc/timeshift-fs:alpine'
+          ENTRYPOINT=/usr/local/bin/mirakc-timeshift-fs
+          VERSION=$(docker run --rm --entrypoint=$ENTRYPOINT $IMAGE --version | cut -d' ' -f2)
+          echo "Version: $VERSION"
+          echo "version=$VERSION" >>$GITHUB_OUTPUT
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -33,6 +41,7 @@ jobs:
           context: ./gerbera
           tags: |
             mirakc/timeshift-gerbera
+            mirakc/timeshift-garbera:${{ steps.latest-version.outputs.version }}
           platforms: |
             linux/amd64
             linux/arm/v7
@@ -44,6 +53,7 @@ jobs:
           context: ./samba
           tags: |
             mirakc/timeshift-samba
+            mirakc/timeshift-samba:${{ steps.latest-version.outputs.version }}
           platforms: |
             linux/386
             linux/amd64
