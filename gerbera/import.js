@@ -22,7 +22,7 @@ if (getPlaylistType(orig.mimetype) === '') {
 
   var container = addContainerTree([recorder]);
   addCdsObject(obj, container);
-  print('Imported: ' + orig.location);
+  //print('Imported: ' + orig.location);
 }
 
 function computeStartTime(obj) {
