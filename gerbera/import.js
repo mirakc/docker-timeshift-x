@@ -4,7 +4,13 @@ if (getPlaylistType(orig.mimetype) === '') {
   var obj = orig;
   obj.refID = orig.id;
 
-  const title = obj.title.split('.', 2)[1];  // Drop the ID-prefix in the title.
+  // Drop the ID-prefix in the title.
+  //
+  // If you are a Kodi user, keeping the ID-prefix may be useful when sorting
+  // records by "Date added".  Kodi doesn't take account of the time part in the
+  // M_DATE.  Keeping the ID-prefix makes the sorting works well until the
+  // ID-prefix wraps around.
+  const title = obj.title.split('.', 2)[1];
   const date = computeStartTime(obj);
 
   obj.title = title;
