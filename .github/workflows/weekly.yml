@@ -41,7 +41,7 @@ jobs:
           context: ./gerbera
           tags: |
             mirakc/timeshift-gerbera
-            mirakc/timeshift-garbera:${{ steps.latest-version.outputs.version }}
+            mirakc/timeshift-gerbera:${{ steps.latest-version.outputs.version }}
           platforms: |
             linux/amd64
             linux/arm/v7
