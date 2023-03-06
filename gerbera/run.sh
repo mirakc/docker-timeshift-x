@@ -57,6 +57,20 @@ then
 EOF
 fi
 
+GERBERA_IMPORT_JS_KEEP_ID_PREFIX=${GERBERA_IMPORT_JS_KEEP_ID_PREFIX:-}
+if [ "$GERBERA_IMPORT_JS_KEEP_ID_PREFIX" = 1 ]
+then
+  sed -i -e 's/KEEP_ID_PREFIX = .*;/KEEP_ID_PREFIX = true;/' \
+    /usr/local/share/gerbera/js/import.js
+fi
+
+GERBERA_IMPORT_JS_LOG_LEVEL=${GERBERA_IMPORT_JS_LOG_LEVEL:-}
+if [ -n "$GERBERA_IMPORT_JS_LOG_LEVEL" ]
+then
+  sed -i -e "s/LOG_LEVEL = .*;/LOG_LEVEL = $GERBERA_IMPORT_JS_LOG_LEVEL;/" \
+    /usr/local/share/gerbera/js/import.js
+fi
+
 /usr/local/bin/mirakc-timeshift-fs /content &
 
 # The following line must be the same as `CMD` in

@@ -1,17 +1,37 @@
+// If you are a Kodi user, keeping the ID-prefix may be useful when sorting
+// records by "Date added".  Kodi doesn't take account of the time part in the
+// M_DATE.  Keeping the ID-prefix makes the sorting works well until the
+// ID-prefix wraps around.
+const KEEP_ID_PREFIX = false;
+
+// Log levels.
+const LOG_LEVEL_OFF = 0;
+const LOG_LEVEL_INFO = 1;
+const LOG_LEVEL_WARN = 2;
+const LOG_LEVEL_ERROR = 3;
+const LOG_LEVEL_DEBUG = 4;
+
+// Current log level.
+const LOG_LEVEL = LOG_LEVEL_OFF;
+
 if (getPlaylistType(orig.mimetype) === '') {
   // All virtual objects are references to objects in the
   // PC-Directory, so make sure to correctly set the reference ID!
   var obj = orig;
   obj.refID = orig.id;
 
-  // Drop the ID-prefix in the title.
-  //
-  // If you are a Kodi user, keeping the ID-prefix may be useful when sorting
-  // records by "Date added".  Kodi doesn't take account of the time part in the
-  // M_DATE.  Keeping the ID-prefix makes the sorting works well until the
-  // ID-prefix wraps around.
-  const title = obj.title.split('.', 2)[1];
+  var title = obj.title.split('.', 2)[1];
+  if (KEEP_ID_PREFIX) {
+    title = obj.title;
+  }
+  if (LOG_LEVEL >= LOG_LEVEL_DEBUG) {
+    print('DEBUG: M_TITLE: ' + title);
+  }
+
   const date = computeStartTime(obj);
+  if (LOG_LEVEL >= LOG_LEVEL_DEBUG) {
+    print('DEBUG: M_DATE: ' + date);
+  }
 
   obj.title = title;
   obj.metaData[M_TITLE] = [title];
@@ -28,7 +48,9 @@ if (getPlaylistType(orig.mimetype) === '') {
 
   var container = addContainerTree([recorder]);
   addCdsObject(obj, container);
-  //print('Imported: ' + orig.location);
+  if (LOG_LEVEL >= LOG_LEVEL_INFO) {
+    print('INFO: Imported: ' + orig.location);
+  }
 }
 
 function computeStartTime(obj) {
