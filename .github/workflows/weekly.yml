@@ -30,28 +30,39 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
+          registry: docker.io
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push (docker.io/mirakc/timeshift-gerbera)
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push (mirakc/timeshift-gerbera)
         uses: docker/build-push-action@v4
         with:
           push: true
           context: ./gerbera
           tags: |
-            mirakc/timeshift-gerbera
-            mirakc/timeshift-gerbera:${{ steps.latest-version.outputs.version }}
+            docker.io/mirakc/timeshift-gerbera
+            docker.io/mirakc/timeshift-gerbera:${{ steps.latest-version.outputs.version }}
+            ghcr.io/mirakc/timeshift-gerbera
+            ghcr.io/mirakc/timeshift-gerbera:${{ steps.latest-version.outputs.version }}
           platforms: |
             linux/amd64
             linux/arm/v7
             linux/arm64/v8
-      - name: Build and push (docker.io/mirakc/timeshift-samba)
+      - name: Build and push (mirakc/timeshift-samba)
         uses: docker/build-push-action@v4
         with:
           push: true
           context: ./samba
           tags: |
-            mirakc/timeshift-samba
-            mirakc/timeshift-samba:${{ steps.latest-version.outputs.version }}
+            docker.io/mirakc/timeshift-samba
+            docker.iomirakc/timeshift-samba:${{ steps.latest-version.outputs.version }}
+            ghcr.io/mirakc/timeshift-samba
+            ghcr.io/mirakc/timeshift-samba:${{ steps.latest-version.outputs.version }}
           platforms: |
             linux/386
             linux/amd64
