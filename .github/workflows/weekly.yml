@@ -47,8 +47,6 @@ jobs:
           tags: |
             docker.io/mirakc/timeshift-gerbera
             docker.io/mirakc/timeshift-gerbera:${{ steps.latest-version.outputs.version }}
-            ghcr.io/mirakc/timeshift-gerbera
-            ghcr.io/mirakc/timeshift-gerbera:${{ steps.latest-version.outputs.version }}
           platforms: |
             linux/amd64
             linux/arm/v7
@@ -61,8 +59,6 @@ jobs:
           tags: |
             docker.io/mirakc/timeshift-samba
             docker.iomirakc/timeshift-samba:${{ steps.latest-version.outputs.version }}
-            ghcr.io/mirakc/timeshift-samba
-            ghcr.io/mirakc/timeshift-samba:${{ steps.latest-version.outputs.version }}
           platforms: |
             linux/386
             linux/amd64

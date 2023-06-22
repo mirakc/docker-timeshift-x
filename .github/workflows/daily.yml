@@ -38,7 +38,6 @@ jobs:
           context: ./gerbera
           tags: |
             docker.io/mirakc/timeshift-gerbera:main
-            ghcr.io/mirakc/timeshift-gerbera:main
           build-args: |
             prefix=main-
           platforms: |
@@ -52,7 +51,6 @@ jobs:
           context: ./samba
           tags: |
             docker.io/mirakc/timeshift-samba:main
-            ghcr.io/mirakc/timeshift-samba:main
           build-args: |
             prefix=main-
           platforms: |
