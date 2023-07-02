@@ -8,6 +8,7 @@ GERBERA_SERVER_NAME=${GERBERA_SERVER_NAME:-Timeshift}
 GERBERA_SERVER_UUID=${GERBERA_SERVER_UUID:-4e4f8da3-9bdd-4570-a67c-69ba6f514883}
 GERBERA_SCAN_INTERVAL=${GERBERA_SCAN_INTERVAL:-300}
 GERBERA_VIDEO_MIMETYPE=${GERBERA_VIDEO_MIMETYPE:-video/mp2t}
+GERBERA_VIDEO_DLNA_PROFILE=${GERBERA_VIDEO_DLNA_PROFILE:-MPEG_PS_PAL}
 
 # Typical usage is `GERBERA_EXTRA_OPTIONS='-D'` for debugging purposes.
 GERBERA_EXTRA_OPTIONS=${GERBERA_EXTRA_OPTIONS:-}
@@ -51,6 +52,9 @@ then
       <extension-mimetype ignore-unknown="yes">
         <map from="m2ts" to="$GERBERA_VIDEO_MIMETYPE" />
       </extension-mimetype>
+      <contenttype-dlnaprofile>
+        <map from="mpeg" to="$GERBERA_VIDEO_DLNA_PROFILE" />
+      </contenttype-dlnaprofile>
     </mappings>
   </import>
 </config>

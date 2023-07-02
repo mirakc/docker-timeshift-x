@@ -38,8 +38,8 @@ services:
       TZ: Asia/Tokyo
       RUST_LOG: info
       # See run.sh for other environment variables.
-      GERBERA_VIDEO_MIMETYPE: >-
-        video/mpeg:DLNA.ORG_PN=MPEG_PS_NTSC;DLNA.ORG_OP=01;DLNA.ORG_CI=0
+      GERBERA_VIDEO_MIMETYPE: video/mpeg
+      GERBERA_VIDEO_DLNA_PROFILE: MPEG_PS_NTSC
       # Enable the following line if you like to keep the ID-prefix in the title
       # of each record.
       #GERBERA_IMPORT_JS_KEEP_ID_PREFIX: 1
