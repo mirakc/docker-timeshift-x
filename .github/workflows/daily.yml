@@ -3,6 +3,7 @@ name: daily
 on:
   schedule:
     - cron: '15 15 * * *' # UTC
+  workflow_dispatch:
 
 jobs:
   docker:

@@ -3,6 +3,7 @@ name: weekly
 on:
   schedule:
     - cron: '21 21 * * 5'  # every Friday
+  workflow_dispatch:
 
 jobs:
   docker:
