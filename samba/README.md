@@ -30,8 +30,7 @@ services:
     devices:
       - /dev/fuse
     ports:
-     - '139:139'
-     - '445:445'
+     - 445:445
     volumes:
       # Used in crazymax/samba.
       - /path/to/data:/data

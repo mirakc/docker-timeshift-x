@@ -44,3 +44,14 @@ services:
       # of each record.
       #GERBERA_IMPORT_JS_KEEP_ID_PREFIX: 1
 ```
+
+## Kodi gets stuck when starting playback
+
+This is a known issue.  See the following issues:
+
+* [mirakc/docker-timeshift-x#2](https://github.com/mirakc/docker-timeshift-x/issues/2)
+* [gerbera/gerbera#2841](https://github.com/gerbera/gerbera/issues/2841)
+
+Use [mirakc/timeshift-samba](../samba) instead.  If Kodi provides a setting to
+disable scanning external subtitle files, mirakc/timeshift-gerbera would work
+properly.
