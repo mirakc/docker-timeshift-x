@@ -6,7 +6,7 @@
 
 ## How to use
 
-docker-compose.yml
+compose.yaml
 
 ```yaml
 services:
