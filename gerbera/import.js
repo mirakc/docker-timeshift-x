@@ -14,6 +14,11 @@ const LOG_LEVEL_DEBUG = 4;
 // Current log level.
 const LOG_LEVEL = LOG_LEVEL_OFF;
 
+// See https://github.com/svaarala/duktape/issues/253
+Error.prototype.toString = function() {
+  return this.name + ': ' + this.message + ' (at line ' + this.lineNumber + ')';
+};
+
 if (getPlaylistType(orig.mimetype) === '') {
   // All virtual objects are references to objects in the
   // PC-Directory, so make sure to correctly set the reference ID!
