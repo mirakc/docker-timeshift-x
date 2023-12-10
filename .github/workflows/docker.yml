@@ -1,0 +1,64 @@
+name: docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup QEMU user-mode emulation
+        uses: docker/setup-qemu-action@v3
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          buildkitd-flags: --debug
+          # See https://github.com/docker/build-push-action/issues/654#issuecomment-1285190151
+          config-inline: |
+            [worker.oci]
+              max-parallelism = 1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push (mirakc/timeshift-gerbera)
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          context: ./gerbera
+          tags: |
+            docker.io/mirakc/timeshift-gerbera:${{ inputs.version }}
+          build-args: |
+            prefix=${{ inputs.version }}-
+          platforms: |
+            linux/amd64
+            linux/arm/v7
+            linux/arm64/v8
+      - name: Build and push (mirakc/timeshift-samba)
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          context: ./samba
+          tags: |
+            docker.io/mirakc/timeshift-samba:${{ inputs.version }}
+          build-args: |
+            prefix=${{ inputs.version }}-
+          platforms: |
+            linux/386
+            linux/amd64
+            linux/arm/v6
+            linux/arm/v7
+            linux/arm64/v8
