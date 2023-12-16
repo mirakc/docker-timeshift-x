@@ -1,6 +1,6 @@
 # mirakc/timeshift-*
 
-[![Daily](https://github.com/mirakc/docker-timeshift-x/actions/workflows/daily.yml/badge.svg?branch=main)](https://github.com/mirakc/docker-timeshift-x/actions/workflows/daily.yml)
+[![docker](https://github.com/mirakc/docker-timeshift-x/actions/workflows/docker.yml/badge.svg)](https://github.com/mirakc/docker-timeshift-x/actions/workflows/docker.yml)
 
 This repository contains files used for building the following Docker images:
 
