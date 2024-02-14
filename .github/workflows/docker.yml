@@ -41,6 +41,7 @@ jobs:
           context: ./gerbera
           tags: |
             docker.io/mirakc/timeshift-gerbera:${{ inputs.version }}
+            ${{ inputs.version == 'main' && '' || 'docker.io/mirakc/timeshift-gerbera:latest' }}
           build-args: |
             prefix=${{ inputs.version }}-
           platforms: |
@@ -54,6 +55,7 @@ jobs:
           context: ./samba
           tags: |
             docker.io/mirakc/timeshift-samba:${{ inputs.version }}
+            ${{ inputs.version == 'main' && '' || 'docker.io/mirakc/timeshift-samba:latest' }}
           build-args: |
             prefix=${{ inputs.version }}-
           platforms: |
