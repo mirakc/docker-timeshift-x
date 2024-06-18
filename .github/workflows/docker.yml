@@ -35,7 +35,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push (mirakc/timeshift-gerbera)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           context: ./gerbera
@@ -49,7 +49,7 @@ jobs:
             linux/arm/v7
             linux/arm64/v8
       - name: Build and push (mirakc/timeshift-samba)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           context: ./samba
