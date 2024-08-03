@@ -14,6 +14,8 @@ const LOG_LEVEL_DEBUG = 4;
 // Current log level.
 const LOG_LEVEL = LOG_LEVEL_OFF;
 
+const START_TIME_RE = /^\d{4,}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/;
+
 // See https://github.com/svaarala/duktape/issues/253
 Error.prototype.toString = function() {
   return this.name + ': ' + this.message + ' (at line ' + this.lineNumber + ')';
@@ -25,9 +27,15 @@ if (getPlaylistType(orig.mimetype) === '') {
   var obj = orig;
   obj.refID = orig.id;
 
-  var title = obj.title.split('.', 2)[1];
+  // [<record.start_time>.]<record.id>.<sanitized record.program.name>.m2ts
+  var parts = obj.title.split('.');
+  if (parts[0].match(START_TIME_RE)) {
+    parts = parts.slice(1);
+  }
   if (KEEP_ID_PREFIX) {
-    title = obj.title;
+    title = parts.join('.');
+  } else {
+    title = parts.slice(1).join('.');
   }
   if (LOG_LEVEL >= LOG_LEVEL_DEBUG) {
     print('DEBUG: M_TITLE: ' + title);
@@ -60,14 +68,28 @@ if (getPlaylistType(orig.mimetype) === '') {
 
 function computeStartTime(obj) {
   const tzOffset = new Date().getTimezoneOffset();
-  const duration = parseDuration(obj);  // in seconds
-  const startTime = new Date((obj.mtime - duration - (tzOffset * 60)) * 1000);
-  return startTime.toISOString().split('.', 2)[0] + formatTz(tzOffset);
+  var parts = obj.title.split('.');
+  if (parts[0].match(START_TIME_RE)) {
+    parts = parts[0].split('-');
+    return '' + parts[0] + '-' + parts[1] + '-' + parts[2] + 'T' + parts[3]
+      + ':' + parts[4] + ':' + parts[5] + formatTz(tzOffset);
+  } else {
+    const duration = parseDuration(obj);  // in seconds
+    const startTime = new Date((obj.mtime - duration - (tzOffset * 60)) * 1000);
+    return startTime.toISOString().split('.', 2)[0] + formatTz(tzOffset);
+  }
 }
 
 function parseDuration(obj) {
-  const parts = obj.res.duration.split('.')[0].split(':');  // drop milli-seconds
-  return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+  try {
+    const parts = obj.res.duration.split('.')[0].split(':');  // drop milli-seconds
+    return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+  } catch (e) {
+    print('ERROR: parseDuration: ' + e);
+    print('ERROR: parseDuration: Failed to parse obj.res.duration of ' + obj.title);
+    print('ERROR: parseDuration: obj.metaData[M_DATE] will be set to the end time');
+    return 0;
+  }
 }
 
 function formatTz(tzOffset) {
