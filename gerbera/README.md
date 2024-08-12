@@ -37,6 +37,11 @@ services:
       # TZ must be specified.
       TZ: Asia/Tokyo
       RUST_LOG: info
+      # Specify the following environment variable if you want to prefix the
+      # recording start time in the filename of each record.
+      # This is useful if your filesystem does not support the created time
+      # attribute.
+      #MIRAKC_TIMESHIFT_FS_START_TIME_PREFIX: true
       # See run.sh for other environment variables.
       GERBERA_VIDEO_MIMETYPE: video/mpeg
       GERBERA_VIDEO_DLNA_PROFILE: MPEG_PS_NTSC
