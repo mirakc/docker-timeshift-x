@@ -50,7 +50,10 @@ services:
       #GERBERA_IMPORT_JS_KEEP_ID_PREFIX: 1
 ```
 
-## Kodi gets stuck when starting playback
+## Kodi gets stuck when starting playback (Solved)
+
+> The following issue was solved in Kodi 21.1.
+> See [this commit](https://github.com/xbmc/xbmc/commit/11331488382c6f3ea450c53a0decc32484193c29) in [xbmc/xbmc](https://github.com/xbmc/xbmc).
 
 This is a known issue.  See the following issues:
 
