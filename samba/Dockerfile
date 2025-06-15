@@ -11,7 +11,7 @@ RUN sh /archive.sh >/archive.tar.gz
 
 FROM crazymax/samba
 RUN --mount=type=bind,from=archive,source=/archive.tar.gz,target=/archive.tar.gz \
-    --mount=type=bind,source=./gerbera/setup.sh,target=/setup.sh \
+    --mount=type=bind,source=./setup.sh,target=/setup.sh \
     sh /setup.sh
 COPY rootfs /
 ENV MIRAKC_CONFIG=/etc/mirakc/config.yml

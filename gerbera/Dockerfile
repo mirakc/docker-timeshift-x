@@ -11,7 +11,7 @@ RUN sh /archive.sh >/archive.tar.gz
 
 FROM gerbera/gerbera:1.12.1
 RUN --mount=type=bind,from=archive,source=/archive.tar.gz,target=/archive.tar.gz \
-    --mount=type=bind,source=./gerbera/setup.sh,target=/setup.sh \
+    --mount=type=bind,source=./setup.sh,target=/setup.sh \
     sh /setup.sh
 COPY ./run.sh /run.sh
 COPY ./import.js /usr/local/share/gerbera/js/import.js
