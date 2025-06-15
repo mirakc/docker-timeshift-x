@@ -1,9 +1,18 @@
-ARG prefix
-FROM mirakc/timeshift-fs:${prefix}alpine AS timeshift-fs
+# We set `dummy` here in order to avoid the `InvalidDefaultArgInFrom` warning,
+# but this argument is always specified in build commands.  As a result, `dummy`
+# is never used.
+ARG TAG=dummy
+
+# crazymax/samba is based on alpine.
+# Copy binaries together with required shared libraries from mirakc/timeshift-fs:$TAG.
+FROM mirakc/timeshift-fs:$TAG AS archive
+ADD https://raw.githubusercontent.com/mirakc/mirakc/refs/heads/main/docker/build-scripts/archive.sh /archive.sh
+RUN --mount=type=bind,from=download,source=/archive.sh,target=/archive.sh \
+    sh /archive.sh >/archive.tar.gz
 
 FROM crazymax/samba
-COPY --from=timeshift-fs /usr/local/bin/mirakc-timeshift-fs /usr/local/bin/
-COPY --from=timeshift-fs /etc/mirakc/strings.yml /etc/mirakc/
+RUN --mount=type=bind,from=archive,source=/archive.tar.gz,target=/archive.tar.gz \
+    --mount=type=bind,source=./gerbera/setup.sh,target=/setup.sh \
+    sh /setup.sh
 COPY rootfs /
-RUN apk add --no-cache fuse3 tzdata
 ENV MIRAKC_CONFIG=/etc/mirakc/config.yml

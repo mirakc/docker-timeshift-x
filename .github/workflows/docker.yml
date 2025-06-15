@@ -43,7 +43,7 @@ jobs:
             docker.io/mirakc/timeshift-gerbera:${{ inputs.version }}
             ${{ inputs.version == 'main' && '' || 'docker.io/mirakc/timeshift-gerbera:latest' }}
           build-args: |
-            prefix=${{ inputs.version }}-
+            TAG=${{ inputs.version }}
           platforms: |
             linux/amd64
             linux/arm/v7
@@ -57,10 +57,9 @@ jobs:
             docker.io/mirakc/timeshift-samba:${{ inputs.version }}
             ${{ inputs.version == 'main' && '' || 'docker.io/mirakc/timeshift-samba:latest' }}
           build-args: |
-            prefix=${{ inputs.version }}-
+            TAG=${{ inputs.version }}
           platforms: |
             linux/386
             linux/amd64
-            linux/arm/v6
             linux/arm/v7
             linux/arm64/v8
