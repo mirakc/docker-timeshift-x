@@ -7,8 +7,7 @@ ARG TAG=dummy
 # Copy binaries together with required shared libraries from mirakc/timeshift-fs:$TAG.
 FROM mirakc/timeshift-fs:$TAG AS archive
 ADD https://raw.githubusercontent.com/mirakc/mirakc/refs/heads/main/docker/build-scripts/archive.sh /archive.sh
-RUN --mount=type=bind,from=download,source=/archive.sh,target=/archive.sh \
-    sh /archive.sh >/archive.tar.gz
+RUN sh /archive.sh >/archive.tar.gz
 
 FROM crazymax/samba
 RUN --mount=type=bind,from=archive,source=/archive.tar.gz,target=/archive.tar.gz \
