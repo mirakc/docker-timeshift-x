@@ -1,0 +1,13 @@
+rules:
+  anonymous-definition:
+    # https://docs.zizmor.sh/audits/#anonymous-definition
+    disable: true
+  concurrency-limits:
+    # https://docs.zizmor.sh/audits/#concurrency-limits
+    disable: true
+  secrets-outside-env:
+    # https://docs.zizmor.sh/audits/#secrets-outside-env
+    disable: true
+  undocumented-permissions:
+    # https://docs.zizmor.sh/audits/#undocumented-permissions
+    disable: true
