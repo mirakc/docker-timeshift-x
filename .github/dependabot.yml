@@ -5,5 +5,3 @@ updates:
     schedule:
       interval: daily
       time: '01:01'  # UTC
-    cooldown:
-      default-days: 7
